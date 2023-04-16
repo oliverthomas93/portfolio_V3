@@ -9,20 +9,19 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Landing from './components/Landing'
 import Projects from './components/Projects';
-import { bearerToken } from './bearertoken';
+import { faHourglass1 } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [userData, setUserData] = useState();
 
   const getUserData = () => {
-    fetch(`https://api.github.com/user/starred`, {
-      headers: {Authorization: bearerToken}
-    })
+    fetch(`https://portfolio-v3-backend.onrender.com/getrepos`)
     .then(response => response.json()
     .then(data => {
       console.log(data)
       setUserData(data)
     }))
+    
   }
 
   useEffect(() => {
@@ -35,7 +34,7 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Landing data={userData}/>} />
+          <Route path='/' element={userData ? <Landing data={userData}/> :<h1>error</h1>} />
           <Route path='/projects' element={userData ? <Projects data={userData}/> : null} />
         </Routes>
       </Router>
