@@ -9,13 +9,17 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Landing from './components/Landing'
 import Projects from './components/Projects';
-import { faHourglass1 } from '@fortawesome/free-solid-svg-icons';
+import About from './components/About';
+import LoadingCard from './components/LoadingCard';
+
+const liveUrl = 'https://portfolio-v3-backend.onrender.com/getrepos'
+const testUrl = 'http://localhost:3030/getrepos'
 
 function App() {
   const [userData, setUserData] = useState();
 
   const getUserData = () => {
-    fetch(`https://portfolio-v3-backend.onrender.com/getrepos`)
+    fetch(liveUrl)
     .then(response => response.json()
     .then(data => {
       console.log(data)
@@ -34,8 +38,9 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' element={userData ? <Landing data={userData}/> :<h1>error</h1>} />
-          <Route path='/projects' element={userData ? <Projects data={userData}/> : null} />
+          <Route path='/' element={<Landing data={userData}/>} />
+          <Route path='/projects' element={userData ? <Projects data={userData}/> : <LoadingCard />} />
+          <Route path='/about' element={userData ? <About data={userData}/> : null} />
         </Routes>
       </Router>
     </div>
